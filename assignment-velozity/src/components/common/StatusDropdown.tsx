@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Status } from '../../types';
+import { useState, useRef, useEffect } from 'react';
+import type { Status } from '../../types';
 
 interface StatusDropdownProps {
   status: Status;

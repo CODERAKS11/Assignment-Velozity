@@ -1,4 +1,4 @@
-import { FilterState, Status, Priority } from '../types';
+import type { FilterState, Status, Priority } from '../types';
 
 export type FilterAction = 
   | { type: 'SET_STATUS_FILTER'; payload: Status[] }

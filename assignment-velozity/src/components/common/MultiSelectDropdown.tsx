@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 interface MultiSelectDropdownProps<T extends string> {
   label: string;
@@ -31,7 +31,7 @@ export function MultiSelectDropdown<T extends string>({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
-  const toggleOption = React.useCallback((id: T) => {
+  const toggleOption = useCallback((id: T) => {
     if (selectedValues.includes(id)) {
       onChange(selectedValues.filter(v => v !== id));
     } else {

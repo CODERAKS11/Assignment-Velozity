@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { FilterState, Status, Priority } from '../types';
-import { FilterAction } from '../reducers/filterReducer';
+import type { FilterState, Status, Priority } from '../types';
+import type { FilterAction } from '../reducers/filterReducer';
 import { useSearchParams } from 'react-router-dom';
 
 export function useURLSync(state: FilterState, dispatch: React.Dispatch<FilterAction>) {

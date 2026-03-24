@@ -1,10 +1,12 @@
-import React, { createContext, useReducer, useContext, FC, ReactNode } from 'react';
-import { FilterState } from '../types';
-import { filterReducer, initialFilterState, FilterAction } from '../reducers/filterReducer';
+import { createContext, useReducer, useContext } from 'react';
+import type { Dispatch, FC, ReactNode } from 'react';
+import type { FilterState } from '../types';
+import { filterReducer, initialFilterState } from '../reducers/filterReducer';
+import type { FilterAction } from '../reducers/filterReducer';
 
 interface FilterContextType {
   filters: FilterState;
-  dispatch: React.Dispatch<FilterAction>;
+  dispatch: Dispatch<FilterAction>;
 }
 
 const FilterContext = createContext<FilterContextType | undefined>(undefined);

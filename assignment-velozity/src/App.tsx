@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { TaskProvider } from './context/TaskContext';
 import { FilterProvider, useFilterContext } from './context/FilterContext';
 import { ViewSwitcher } from './components/common/ViewSwitcher';

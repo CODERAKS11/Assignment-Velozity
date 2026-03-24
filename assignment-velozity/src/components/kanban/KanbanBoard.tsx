@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTaskContext } from '../../context/TaskContext';
 import { useFilterContext } from '../../context/FilterContext';
 import { KanbanColumn } from './KanbanColumn';
-import { Status } from '../../types';
+import type { Status } from '../../types';
 
 export function KanbanBoard() {
   const { tasks } = useTaskContext();

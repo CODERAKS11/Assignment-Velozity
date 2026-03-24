@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Task } from '../../types';
+import type { Task } from '../../types';
 import { USERS } from '../../utils/seedData';
 import { PriorityBadge } from '../common/PriorityBadge';
 import { Avatar } from '../common/Avatar';

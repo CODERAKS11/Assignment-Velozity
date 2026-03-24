@@ -1,4 +1,3 @@
-import React from 'react';
 import { useCollaboration } from '../../context/CollaborationContext';
 import { Avatar } from './Avatar';
 

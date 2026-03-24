@@ -1,4 +1,4 @@
-import { Task, User, Priority, Status } from '../types';
+import type { Task, User, Priority, Status } from '../types';
 
 export const USERS: User[] = [
   { id: 'u1', name: 'Alice Smith', color: '#fca5a5' },

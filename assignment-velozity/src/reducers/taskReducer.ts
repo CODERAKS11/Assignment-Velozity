@@ -1,4 +1,4 @@
-import { Task, Status } from '../types';
+import type { Task, Status } from '../types';
 
 export type TaskAction = 
   | { type: 'SET_TASKS'; payload: Task[] }

@@ -1,5 +1,3 @@
-import React from 'react';
-
 type ViewType = 'kanban' | 'list' | 'timeline';
 
 interface ViewSwitcherProps {

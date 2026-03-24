@@ -1,5 +1,4 @@
-import React from 'react';
-import { Priority } from '../../types';
+import type { Priority } from '../../types';
 
 interface PriorityBadgeProps {
   priority: Priority;

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useTaskContext } from '../context/TaskContext';
-import { Status } from '../types';
+import type { Status } from '../types';
 
 export function useDragAndDrop(cardRef: React.RefObject<HTMLDivElement | null>, taskId: string, currentStatus: Status) {
   const { dispatch } = useTaskContext();

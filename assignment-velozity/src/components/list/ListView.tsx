@@ -3,9 +3,10 @@ import { useTaskContext } from '../../context/TaskContext';
 import { useFilterContext } from '../../context/FilterContext';
 import { EmptyState } from '../common/EmptyState';
 import { ListRow } from './ListRow';
-import { SortableHeader, SortField, SortDirection } from './SortableHeader';
+import { SortableHeader } from './SortableHeader';
+import type { SortField, SortDirection } from './SortableHeader';
 import { useVirtualScroll } from '../../hooks/useVirtualScroll';
-import { Priority } from '../../types';
+import type { Priority } from '../../types';
 
 const priorityOrder: Record<Priority, number> = {
   critical: 0,

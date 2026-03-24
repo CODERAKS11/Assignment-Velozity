@@ -1,7 +1,6 @@
-import React from 'react';
 import { useFilterContext } from '../../context/FilterContext';
 import { MultiSelectDropdown } from './MultiSelectDropdown';
-import { Status, Priority } from '../../types';
+import type { Status, Priority } from '../../types';
 import { USERS } from '../../utils/seedData';
 
 const statusOptions: { id: Status; label: string }[] = [

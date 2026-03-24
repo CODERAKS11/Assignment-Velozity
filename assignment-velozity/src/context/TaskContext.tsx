@@ -1,11 +1,13 @@
-import React, { createContext, useReducer, useContext, FC, ReactNode } from 'react';
-import { Task } from '../types';
-import { taskReducer, TaskAction } from '../reducers/taskReducer';
+import { createContext, useReducer, useContext } from 'react';
+import type { Dispatch, FC, ReactNode } from 'react';
+import type { Task } from '../types';
+import { taskReducer } from '../reducers/taskReducer';
+import type { TaskAction } from '../reducers/taskReducer';
 import { INITIAL_TASKS } from '../utils/seedData';
 
 interface TaskContextType {
   tasks: Task[];
-  dispatch: React.Dispatch<TaskAction>;
+  dispatch: Dispatch<TaskAction>;
 }
 
 const TaskContext = createContext<TaskContextType | undefined>(undefined);

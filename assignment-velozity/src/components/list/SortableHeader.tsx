@@ -1,5 +1,3 @@
-import React from 'react';
-
 export type SortField = 'title' | 'priority' | 'dueDate';
 export type SortDirection = 'asc' | 'desc';
 

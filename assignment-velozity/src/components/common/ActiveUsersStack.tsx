@@ -1,7 +1,6 @@
-import React from 'react';
 import { useCollaboration } from '../../context/CollaborationContext';
 import { Avatar } from './Avatar';
-import { User } from '../../types';
+import type { User } from '../../types';
 
 interface ActiveUsersStackProps {
   taskId: string;

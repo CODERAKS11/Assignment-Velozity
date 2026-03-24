@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTaskContext } from '../../context/TaskContext';
 import { useFilterContext } from '../../context/FilterContext';
 import { TimelineBar } from './TimelineBar';

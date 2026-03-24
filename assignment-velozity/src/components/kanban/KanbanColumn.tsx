@@ -1,5 +1,4 @@
-import React from 'react';
-import { Status, Task } from '../../types';
+import type { Status, Task } from '../../types';
 import { TaskCard } from './TaskCard';
 import { EmptyState } from '../common/EmptyState';
 
