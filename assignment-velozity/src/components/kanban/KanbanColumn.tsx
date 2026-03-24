@@ -11,7 +11,10 @@ interface KanbanColumnProps {
 
 export function KanbanColumn({ status, title, tasks }: KanbanColumnProps) {
   return (
-    <div className="bg-gray-100 rounded-md flex flex-col h-full overflow-hidden border border-gray-200">
+    <div 
+      className="bg-gray-100 rounded-md flex flex-col h-full overflow-hidden border border-gray-200"
+      data-column-status={status}
+    >
       <div className="px-4 py-3 border-b border-gray-200 flex justify-between items-center bg-gray-50 shrink-0">
         <h2 className="font-semibold text-gray-700 text-sm">{title}</h2>
         <span className="bg-white text-gray-500 text-xs font-medium px-2 py-1 rounded-full border border-gray-200">

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Task } from '../../types';
 import { USERS } from '../../utils/seedData';
 import { PriorityBadge } from '../common/PriorityBadge';
 import { Avatar } from '../common/Avatar';
 import { formatDueDate } from '../../utils/dateHelpers';
+import { useDragAndDrop } from '../../hooks/useDragAndDrop';
 
 interface TaskCardProps {
   task: Task;
@@ -12,9 +13,13 @@ interface TaskCardProps {
 export const TaskCard = React.memo(({ task }: TaskCardProps) => {
   const assignee = USERS.find(u => u.id === task.assigneeId);
   const { text: dueText, isDanger: isDueDanger, isWarning: isDueWarning } = formatDueDate(task.dueDate);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useDragAndDrop(cardRef, task.id, task.status);
 
   return (
     <div 
+      ref={cardRef}
       className="bg-white p-4 rounded-md shadow-sm border border-gray-200 cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow relative touch-none"
       data-task-id={task.id}
     >
