@@ -1,17 +1,28 @@
 import type { Task, User, Priority, Status } from '../types';
 
 export const USERS: User[] = [
-  { id: 'u1', name: 'Alice Smith', color: '#fca5a5' },
-  { id: 'u2', name: 'Bob Jones', color: '#93c5fd' },
-  { id: 'u3', name: 'Charlie Brown', color: '#86efac' },
-  { id: 'u4', name: 'Diana Prince', color: '#fdba74' },
-  { id: 'u5', name: 'Evan Wright', color: '#c4b5fd' },
-  { id: 'u6', name: 'Fiona Gallagher', color: '#f9a8d4' },
+  { id: 'u1', name: 'Sarah Jenkins', color: '#3b82f6' },
+  { id: 'u2', name: 'Michael Chang', color: '#10b981' },
+  { id: 'u3', name: 'Elena Rodriguez', color: '#8b5cf6' },
+  { id: 'u4', name: 'David Kim', color: '#f59e0b' },
+  { id: 'u5', name: 'Priya Patel', color: '#ec4899' },
+  { id: 'u6', name: 'James Wilson', color: '#06b6d4' },
+  { id: 'u7', name: 'Anita Singh', color: '#ef4444' },
 ];
 
-const VERBS = ['Implement', 'Fix', 'Review', 'Update', 'Design', 'Refactor', 'Test', 'Deploy', 'Research', 'Document', 'Optimize', 'Configure', 'Integrate', 'Remove', 'Add', 'Write', 'Migrate', 'Audit', 'Create', 'Debug'];
-const NOUNS = ['API', 'Database', 'Component', 'Service', 'UI', 'Backend', 'Frontend', 'Pipeline', 'Documentation', 'Middleware', 'Schema', 'Dependencies', 'Tests', 'Configuration', 'Auth', 'Security', 'Endpoints', 'Cache', 'Logs', 'Metrics'];
-const CONTEXTS = ['for production', 'in staging', 'for client feature', 'urgently', 'asap', 'for next release', 'for mobile app', 'for web portal', 'for legacy system', 'for compliance'];
+const PREFIXES = ['[CORE]', '[UI/UX]', '[API]', '[OPS]', '[DB]', '[SEC]', ''];
+const ACTIONS = ['Optimize', 'Migrate', 'Refactor', 'Deprecate', 'Integrate', 'Investigate', 'Resolve', 'Implement', 'Audit', 'Standardize'];
+const SUBJECTS = [
+  'Redis caching strategy', 'legacy Auth0 pipeline', 'Stripe webhooks handling', 
+  'React Router v7 loaders', 'GraphQL resolvers', 'E2E test suite', 
+  'Docker compose configuration', 'S3 upload streams', 'Figma design tokens', 
+  'OAuth2 refresh flows', 'memory leaks in websockets', 'CSS payload chunking'
+];
+const CONTEXTS = [
+  'for Q3 compliance', 'in reporting dashboard', 'causing unhandled exceptions', 
+  'to improve LCP metrics', 'to reduce database load', 'across staging environments',
+  'for mobile responsive views', 'to resolve client escalation', ''
+];
 
 const PRIORITIES: Priority[] = ['critical', 'high', 'medium', 'low'];
 const STATUSES: Status[] = ['todo', 'inprogress', 'inreview', 'done'];
@@ -53,9 +64,12 @@ export function generateSeedData(count: number = 500): Task[] {
       startDateStr = generateDate(startDateOffset);
     }
 
+    const prefix = Math.random() > 0.4 ? getRandomItem(PREFIXES) : '';
+    const title = `${prefix ? prefix + ' ' : ''}${getRandomItem(ACTIONS)} ${getRandomItem(SUBJECTS)} ${getRandomItem(CONTEXTS)}`.trim();
+
     tasks.push({
       id: `task-${i + 1}`,
-      title: `${getRandomItem(VERBS)} ${getRandomItem(NOUNS)} ${getRandomItem(CONTEXTS)}`,
+      title,
       assigneeId: getRandomItem(USERS).id,
       priority: getRandomItem(PRIORITIES),
       status: getRandomItem(STATUSES),

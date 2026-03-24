@@ -17,9 +17,14 @@ export const ListRow = React.memo(({ task }: ListRowProps) => {
   const { text: dueText, isDanger: isDueDanger, isWarning: isDueWarning } = formatDueDate(task.dueDate);
 
   return (
-    <div className="flex bg-white hover:bg-gray-50 border-b border-gray-200 h-12">
-      <div className="flex-1 min-w-0 px-6 py-0 self-center">
-        <span className="text-sm font-medium text-gray-900 line-clamp-1">{task.title}</span>
+    <div className="group flex bg-white hover:bg-slate-50/70 border-b border-slate-100 h-14 transition-colors duration-150 items-center">
+      <div className="flex-1 min-w-0 px-6 py-0 flex items-center gap-3">
+        <div className="w-8 h-8 rounded-md bg-slate-50 flex items-center justify-center shrink-0 border border-slate-200/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+          <svg className="w-4 h-4 text-slate-400 group-hover:text-blue-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+        </div>
+        <span className="text-sm font-semibold text-slate-700 line-clamp-1 group-hover:text-blue-700 transition-colors tracking-wide">{task.title}</span>
       </div>
       <div className="w-40 px-6 py-3 self-center shrink-0">
         <StatusDropdown 

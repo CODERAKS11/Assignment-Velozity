@@ -20,11 +20,11 @@ export const TaskCard = React.memo(({ task }: TaskCardProps) => {
   return (
     <div 
       ref={cardRef}
-      className="bg-white p-4 rounded-md shadow-sm border border-gray-200 cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow relative touch-none"
+      className="group bg-white p-5 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-slate-200 cursor-grab active:cursor-grabbing hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)] hover:border-blue-200 transition-all duration-200 relative touch-none"
       data-task-id={task.id}
     >
-      <div className="flex justify-between items-start mb-2 gap-2">
-        <h3 className="text-sm font-medium text-gray-900 line-clamp-2 leading-tight flex-1">{task.title}</h3>
+      <div className="flex justify-between items-start mb-3 gap-2">
+        <h3 className="text-sm font-semibold text-slate-800 leading-relaxed line-clamp-2 flex-1 group-hover:text-blue-700 transition-colors">{task.title}</h3>
       </div>
       
       {dueText && (

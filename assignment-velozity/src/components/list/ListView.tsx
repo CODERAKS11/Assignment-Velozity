@@ -109,9 +109,9 @@ export function ListView() {
 
   return (
     <div className="flex-1 flex flex-col bg-white overflow-hidden overflow-x-auto">
-      <div className="min-w-[800px] flex flex-col h-full">
-        <div className="flex bg-gray-50 border-b border-gray-200 sticky top-0 z-10 shrink-0">
-          <div className="flex-1 min-w-0 px-6 py-3 text-left">
+      <div className="min-w-[900px] flex flex-col h-full bg-white">
+        <div className="flex bg-white border-b-2 border-slate-100 sticky top-0 z-10 shrink-0 shadow-[0_2px_4px_rgba(0,0,0,0.01)] h-12 items-center">
+          <div className="flex-1 min-w-0 px-6 py-0 text-left">
             <SortableHeader label="Task Title" field="title" currentSortField={sortField} currentDirection={sortDirection} onSort={handleSort} />
           </div>
           <div className="w-40 px-6 py-3 text-left">
