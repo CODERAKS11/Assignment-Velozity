@@ -10,12 +10,16 @@ export function useDragAndDrop(cardRef: React.RefObject<HTMLDivElement | null>, 
     placeholder: HTMLElement | null;
     offsetX: number;
     offsetY: number;
+    startX: number;
+    startY: number;
   }>({
     isDragging: false,
     clone: null,
     placeholder: null,
     offsetX: 0,
     offsetY: 0,
+    startX: 0,
+    startY: 0,
   });
 
   useEffect(() => {
@@ -32,6 +36,8 @@ export function useDragAndDrop(cardRef: React.RefObject<HTMLDivElement | null>, 
       state.isDragging = true;
       state.offsetX = e.clientX - rect.left;
       state.offsetY = e.clientY - rect.top;
+      state.startX = rect.left;
+      state.startY = rect.top;
       
       // Create clone
       const clone = card.cloneNode(true) as HTMLElement;
@@ -69,6 +75,21 @@ export function useDragAndDrop(cardRef: React.RefObject<HTMLDivElement | null>, 
       
       state.clone.style.left = `${e.clientX - state.offsetX}px`;
       state.clone.style.top = `${e.clientY - state.offsetY}px`;
+
+      // Update drop zone highlights
+      state.clone.style.display = 'none';
+      const elements = document.elementsFromPoint(e.clientX, e.clientY);
+      state.clone.style.display = '';
+      
+      const columnEl = elements.find(el => el.hasAttribute('data-column-status'));
+      
+      document.querySelectorAll('[data-column-status]').forEach(el => {
+        el.classList.remove('bg-blue-50');
+      });
+      
+      if (columnEl) {
+        columnEl.classList.add('bg-blue-50');
+      }
     };
 
     const cleanup = () => {
@@ -90,19 +111,38 @@ export function useDragAndDrop(cardRef: React.RefObject<HTMLDivElement | null>, 
       if (!state.isDragging) return;
       
       card.releasePointerCapture(e.pointerId);
+
+      document.querySelectorAll('[data-column-status]').forEach(el => {
+        el.classList.remove('bg-blue-50');
+      });
       
       // Find drop target
+      if (state.clone) state.clone.style.display = 'none';
       const elements = document.elementsFromPoint(e.clientX, e.clientY);
+      if (state.clone) state.clone.style.display = '';
+      
       const columnEl = elements.find(el => el.hasAttribute('data-column-status'));
+      let isValidDrop = false;
       
       if (columnEl) {
         const newStatus = columnEl.getAttribute('data-column-status') as Status;
         if (newStatus && newStatus !== currentStatus) {
           dispatch({ type: 'UPDATE_STATUS', payload: { taskId, newStatus } });
+          isValidDrop = true;
         }
       }
-      
-      cleanup();
+
+      if (!isValidDrop && state.clone) {
+        // Snap back animation
+        state.clone.style.transition = 'all 0.3s ease';
+        state.clone.style.left = `${state.startX}px`;
+        state.clone.style.top = `${state.startY}px`;
+        
+        state.clone.addEventListener('transitionend', cleanup, { once: true });
+        setTimeout(cleanup, 350); // Failsafe
+      } else {
+        cleanup();
+      }
     };
 
     card.addEventListener('pointerdown', onPointerDown);
