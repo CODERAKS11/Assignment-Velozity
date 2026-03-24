@@ -22,7 +22,7 @@ export function FilterBar() {
   const { filters, dispatch } = useFilterContext();
 
   const handleDateChange = (field: 'start' | 'end', value: string) => {
-    let newDateRange = filters.dateRange ? { ...filters.dateRange } : { start: '', end: '' };
+    const newDateRange = filters.dateRange ? { ...filters.dateRange } : { start: '', end: '' };
     newDateRange[field] = value;
     
     if (!newDateRange.start && !newDateRange.end) {
@@ -32,8 +32,14 @@ export function FilterBar() {
     }
   };
 
+  const hasActiveFilters = 
+    filters.status.length > 0 || 
+    filters.priority.length > 0 || 
+    filters.assignees.length > 0 || 
+    filters.dateRange !== null;
+
   return (
-    <div className="flex flex-wrap items-center gap-4 bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6">
+    <div className="flex flex-wrap items-center gap-4 bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6 relative">
       <MultiSelectDropdown
         label="Status"
         options={statusOptions}
@@ -69,6 +75,15 @@ export function FilterBar() {
           onChange={(e) => handleDateChange('end', e.target.value)}
         />
       </div>
+
+      {hasActiveFilters && (
+        <button
+          onClick={() => dispatch({ type: 'CLEAR_ALL' })}
+          className="ml-auto text-sm text-gray-500 hover:text-gray-700 underline"
+        >
+          Clear all filters
+        </button>
+      )}
     </div>
   );
 }
