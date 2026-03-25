@@ -60,7 +60,7 @@ export function ListView() {
 
   const { startIndex, endIndex, totalHeight, offsetY } = useVirtualScroll({
     itemCount: filteredTasks.length,
-    rowHeight: 48,
+    rowHeight: 56,
     containerRef: listContainerRef
   });
 

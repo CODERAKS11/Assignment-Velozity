@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useTaskContext } from '../../context/TaskContext';
 import { useFilterContext } from '../../context/FilterContext';
 import { TimelineBar } from './TimelineBar';
@@ -41,6 +41,20 @@ export function TimelineView() {
   const DAY_WIDTH = 40;
   const LABEL_WIDTH = 250;
 
+  const [visibleCount, setVisibleCount] = useState(20);
+
+  useEffect(() => {
+    let timer: number;
+    if (visibleCount < filteredTasks.length) {
+      timer = window.requestAnimationFrame(() => {
+        setVisibleCount((prev: number) => Math.min(prev + 20, filteredTasks.length));
+      });
+    }
+    return () => window.cancelAnimationFrame(timer);
+  }, [visibleCount, filteredTasks.length]);
+
+  const visibleTasks = filteredTasks.slice(0, visibleCount);
+
   return (
     <div className="flex-1 flex flex-col bg-white overflow-hidden relative">
       <div className="flex-1 overflow-auto flex">
@@ -50,7 +64,7 @@ export function TimelineView() {
             <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Task</span>
           </div>
           <div className="flex flex-col">
-            {filteredTasks.map(task => (
+            {visibleTasks.map(task => (
               <div key={task.id} className="h-12 border-b border-gray-100 flex items-center px-4 overflow-hidden">
                 <span className="text-sm text-gray-800 truncate" title={task.title}>{task.title}</span>
               </div>
@@ -77,7 +91,7 @@ export function TimelineView() {
               ))}
             </div>
             
-            {filteredTasks.map(task => (
+            {visibleTasks.map(task => (
               <div key={task.id} className="h-12 border-b border-gray-50 relative group hover:bg-gray-50/50 shrink-0">
                  <TimelineBar task={task} year={year} month={month} />
               </div>

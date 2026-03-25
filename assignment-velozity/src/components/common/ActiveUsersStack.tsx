@@ -13,23 +13,45 @@ export function ActiveUsersStack({ taskId, assignee }: ActiveUsersStackProps) {
 
   if (activeUsers.length === 0 && !assignee) return null;
 
+  const MAX_DISPLAY = 2;
+  const displayUsers = activeUsers.slice(0, MAX_DISPLAY);
+  const excess = activeUsers.length - MAX_DISPLAY;
+
   return (
     <div className="flex items-center -space-x-2">
+      {/* Assignee is statically rendered as they own the task */}
       {assignee && !activeUsers.find(p => p.user.id === assignee.id) && (
-        <div className="relative inline-block ring-2 ring-white rounded-full bg-white" title={`Assignee: ${assignee.name}`}>
+        <div className="relative inline-block ring-2 ring-white rounded-full bg-white z-0" title={`Assignee: ${assignee.name}`}>
           <Avatar name={assignee.name} />
         </div>
       )}
-      {activeUsers.map(p => (
+      
+      {/* Invisible slots for the global avatar layer to target */}
+      {displayUsers.map(p => (
         <div 
           key={p.user.id} 
-          className="relative inline-block ring-2 ring-blue-400 rounded-full z-10 transition-transform hover:-translate-y-1 hover:z-20 bg-white"
+          id={`avatar-slot-${p.user.id}`}
+          className="w-8 h-8 rounded-full ring-2 ring-transparent invisible relative z-10"
           title={`Viewing: ${p.user.name}`}
-        >
-          <Avatar name={p.user.name} />
-          <span className="absolute bottom-0 right-0 block w-2.5 h-2.5 bg-green-500 rounded-full ring-2 ring-white translate-x-1/4 translate-y-1/4" />
-        </div>
+        />
       ))}
+
+      {/* Overflow bubble */}
+      {excess > 0 && (
+        <div className="relative inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 ring-2 ring-white z-20 text-xs font-semibold text-slate-600 shadow-sm border border-slate-200">
+          +{excess}
+          
+          {/* Render the excess user slots absolutely positioned inside the bubble 
+              so the global avatars fly precisely into the +N badge */}
+          {activeUsers.slice(MAX_DISPLAY).map(p => (
+            <div 
+              key={p.user.id} 
+              id={`avatar-slot-${p.user.id}`} 
+              className="absolute inset-0 w-8 h-8 opacity-0 pointer-events-none" 
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

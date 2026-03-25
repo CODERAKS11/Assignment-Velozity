@@ -2,9 +2,9 @@ import React, { useRef } from 'react';
 import type { Task } from '../../types';
 import { USERS } from '../../utils/seedData';
 import { PriorityBadge } from '../common/PriorityBadge';
-import { Avatar } from '../common/Avatar';
 import { formatDueDate } from '../../utils/dateHelpers';
 import { useDragAndDrop } from '../../hooks/useDragAndDrop';
+import { ActiveUsersStack } from '../common/ActiveUsersStack';
 
 interface TaskCardProps {
   task: Task;
@@ -35,13 +35,14 @@ export const TaskCard = React.memo(({ task }: TaskCardProps) => {
       
       <div className="flex justify-between items-center mt-auto pt-2">
         <PriorityBadge priority={task.priority} />
-        
-        {assignee && (
-          <div className="flex items-center gap-2" title={assignee.name}>
-            <span className="text-xs text-gray-500 hidden sm:inline-block truncate max-w-[80px]">{assignee.name}</span>
-            <Avatar name={assignee.name} />
-          </div>
-        )}
+        <div className="flex items-center gap-2">
+          {assignee && (
+            <span className="text-xs text-gray-500 hidden sm:inline-block truncate max-w-[80px]" title={assignee.name}>
+              {assignee.name}
+            </span>
+          )}
+          <ActiveUsersStack taskId={task.id} assignee={assignee} />
+        </div>
       </div>
     </div>
   );

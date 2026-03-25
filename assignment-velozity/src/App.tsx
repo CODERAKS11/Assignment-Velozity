@@ -1,19 +1,14 @@
 import { useState } from 'react';
 import { TaskProvider } from './context/TaskContext';
-import { FilterProvider, useFilterContext } from './context/FilterContext';
+import { FilterProvider } from './context/FilterContext';
 import { ViewSwitcher } from './components/common/ViewSwitcher';
-import { useURLSync } from './hooks/useURLSync';
 import { KanbanBoard } from './components/kanban/KanbanBoard';
 import { ListView } from './components/list/ListView';
 import { TimelineView } from './components/timeline/TimelineView';
 import { CollaborationProvider } from './context/CollaborationContext';
 import { GlobalPresence } from './components/common/GlobalPresence';
-
-function URLSyncManager() {
-  const { filters, dispatch } = useFilterContext();
-  useURLSync(filters, dispatch);
-  return null;
-}
+import { GlobalAvatarLayer } from './components/common/GlobalAvatarLayer';
+import { FilterBar } from './components/common/FilterBar';
 
 function App() {
   const [currentView, setCurrentView] = useState<'kanban' | 'list' | 'timeline'>('kanban');
@@ -22,7 +17,7 @@ function App() {
     <TaskProvider>
       <CollaborationProvider>
         <FilterProvider>
-        <URLSyncManager />
+        <GlobalAvatarLayer />
         <div className="h-screen flex flex-col pt-4 px-4 bg-gray-50 pb-4">
           <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 shrink-0">
             <h1 className="text-2xl font-bold text-gray-800">Project Tracker</h1>
@@ -32,6 +27,8 @@ function App() {
             </div>
           </header>
           
+          <FilterBar />
+
           <main className="flex-1 bg-white rounded-lg shadow border border-gray-200 overflow-hidden flex flex-col relative">
             {currentView === 'kanban' && <KanbanBoard />}
             {currentView === 'list' && <ListView />}

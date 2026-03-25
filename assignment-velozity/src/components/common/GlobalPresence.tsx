@@ -17,7 +17,7 @@ export function GlobalPresence() {
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
           <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
         </span>
-        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Live</span>
+        <span className="text-xs font-semibold text-gray-600">{onlineUsers.length} people are viewing this board</span>
       </div>
       
       <div className="flex -space-x-2">

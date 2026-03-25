@@ -12,6 +12,8 @@ export function useDragAndDrop(cardRef: React.RefObject<HTMLDivElement | null>, 
     offsetY: number;
     startX: number;
     startY: number;
+    highlightedColumn: HTMLElement | null;
+    originalColumnBg: string;
   }>({
     isDragging: false,
     clone: null,
@@ -20,11 +22,23 @@ export function useDragAndDrop(cardRef: React.RefObject<HTMLDivElement | null>, 
     offsetY: 0,
     startX: 0,
     startY: 0,
+    highlightedColumn: null,
+    originalColumnBg: '',
   });
 
   useEffect(() => {
     const card = cardRef.current;
     if (!card) return;
+
+    const clearHighlight = () => {
+      const state = draggingState.current;
+      if (state.highlightedColumn) {
+        state.highlightedColumn.style.backgroundColor = state.originalColumnBg;
+        state.highlightedColumn.style.boxShadow = '';
+        state.highlightedColumn = null;
+        state.originalColumnBg = '';
+      }
+    };
 
     const onPointerDown = (e: PointerEvent) => {
       // Only handle primary button (left click or touch)
@@ -39,7 +53,7 @@ export function useDragAndDrop(cardRef: React.RefObject<HTMLDivElement | null>, 
       state.startX = rect.left;
       state.startY = rect.top;
       
-      // Create clone
+      // Create clone that follows cursor
       const clone = card.cloneNode(true) as HTMLElement;
       clone.style.position = 'fixed';
       clone.style.top = `${rect.top}px`;
@@ -47,21 +61,30 @@ export function useDragAndDrop(cardRef: React.RefObject<HTMLDivElement | null>, 
       clone.style.width = `${rect.width}px`;
       clone.style.height = `${rect.height}px`;
       clone.style.opacity = '0.85';
-      clone.style.boxShadow = '0 12px 24px rgba(0,0,0,0.15)';
+      clone.style.boxShadow = '0 16px 32px rgba(0,0,0,0.18), 0 4px 8px rgba(0,0,0,0.08)';
       clone.style.pointerEvents = 'none';
       clone.style.zIndex = '1000';
       clone.style.margin = '0';
+      clone.style.transition = 'transform 0.15s ease, box-shadow 0.15s ease';
+      clone.style.transform = 'scale(1.03)';
+      clone.style.borderColor = '#93c5fd';
       document.body.appendChild(clone);
       state.clone = clone;
       
-      // Create placeholder
+      // Create placeholder at original position with matching height
       const placeholder = document.createElement('div');
       placeholder.style.width = `${rect.width}px`;
       placeholder.style.height = `${rect.height}px`;
-      placeholder.style.border = '2px dashed #cbd5e1';
-      placeholder.style.borderRadius = '0.375rem';
+      placeholder.style.border = '2px dashed #94a3b8';
+      placeholder.style.borderRadius = '0.75rem';
+      placeholder.style.backgroundColor = '#f1f5f9';
+      placeholder.style.backgroundImage = 'repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(148,163,184,0.06) 8px, rgba(148,163,184,0.06) 16px)';
       placeholder.style.margin = window.getComputedStyle(card).margin;
+      placeholder.style.transition = 'opacity 0.2s ease';
+      placeholder.style.opacity = '0';
       card.parentNode?.insertBefore(placeholder, card);
+      // Fade in the placeholder
+      requestAnimationFrame(() => { placeholder.style.opacity = '1'; });
       state.placeholder = placeholder;
       
       card.style.display = 'none';
@@ -76,34 +99,110 @@ export function useDragAndDrop(cardRef: React.RefObject<HTMLDivElement | null>, 
       state.clone.style.left = `${e.clientX - state.offsetX}px`;
       state.clone.style.top = `${e.clientY - state.offsetY}px`;
 
-      // Update drop zone highlights
+      // Find which column the cursor is over
       state.clone.style.display = 'none';
       const elements = document.elementsFromPoint(e.clientX, e.clientY);
       state.clone.style.display = '';
       
-      const columnEl = elements.find(el => el.hasAttribute('data-column-status'));
+      const columnEl = elements.find(el => el.hasAttribute('data-column-status')) as HTMLElement | undefined;
       
-      document.querySelectorAll('[data-column-status]').forEach(el => {
-        el.classList.remove('bg-blue-50');
-      });
+      // Clear previous highlight if we left that column
+      if (state.highlightedColumn && state.highlightedColumn !== columnEl) {
+        clearHighlight();
+      }
       
+      // Apply highlight to current column (only if different from source)
+      if (columnEl && columnEl !== state.highlightedColumn) {
+        const colStatus = columnEl.getAttribute('data-column-status');
+        if (colStatus !== currentStatus) {
+          state.originalColumnBg = columnEl.style.backgroundColor || '';
+          state.highlightedColumn = columnEl;
+          columnEl.style.backgroundColor = '#dbeafe';
+          columnEl.style.boxShadow = 'inset 0 0 0 2px #93c5fd';
+        }
+      }
+      
+      // Clear highlight if hovering over the same column
       if (columnEl) {
-        columnEl.classList.add('bg-blue-50');
+        const colStatus = columnEl.getAttribute('data-column-status');
+        if (colStatus === currentStatus && state.highlightedColumn === columnEl) {
+          clearHighlight();
+        }
       }
     };
 
-    const cleanup = () => {
+    let cleanupDone = false;
+
+    const cleanup = (animated = false) => {
+      if (cleanupDone) return;
+      cleanupDone = true;
       const state = draggingState.current;
-      if (state.clone && state.clone.parentNode) {
-        state.clone.parentNode.removeChild(state.clone);
-      }
-      if (state.placeholder && state.placeholder.parentNode) {
-        state.placeholder.parentNode.removeChild(state.placeholder);
-      }
+
+      const removeClone = () => {
+        if (state.clone && state.clone.parentNode) {
+          state.clone.parentNode.removeChild(state.clone);
+        }
+        state.clone = null;
+      };
+
+      const removePlaceholder = () => {
+        if (state.placeholder && state.placeholder.parentNode) {
+          state.placeholder.parentNode.removeChild(state.placeholder);
+        }
+        state.placeholder = null;
+      };
+
+      clearHighlight();
       state.isDragging = false;
-      state.clone = null;
-      state.placeholder = null;
-      card.style.display = '';
+
+      if (!animated) {
+        // Instant cleanup (valid drop or same-column)
+        removeClone();
+        removePlaceholder();
+        card.style.display = '';
+        card.style.opacity = '';
+        card.style.transform = '';
+        card.style.transition = '';
+        cleanupDone = false;
+        return;
+      }
+
+      // Animated cleanup: fade placeholder out, then show card with fade-in
+      if (state.placeholder) {
+        state.placeholder.style.transition = 'opacity 0.25s ease';
+        state.placeholder.style.opacity = '0';
+      }
+
+      // After clone snap-back finishes, cross-fade to original card
+      const finalize = () => {
+        removeClone();
+        // Show card with a smooth fade-in
+        card.style.display = '';
+        card.style.opacity = '0';
+        card.style.transform = 'scale(0.97)';
+        card.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+        // Force reflow so transition triggers
+        void card.offsetHeight;
+        card.style.opacity = '1';
+        card.style.transform = 'scale(1)';
+        
+        const onCardDone = () => {
+          card.style.transition = '';
+          card.style.transform = '';
+          card.style.opacity = '';
+          removePlaceholder();
+          cleanupDone = false;
+        };
+        card.addEventListener('transitionend', onCardDone, { once: true });
+        setTimeout(onCardDone, 300);
+      };
+
+      if (state.clone) {
+        state.clone.addEventListener('transitionend', finalize, { once: true });
+        setTimeout(finalize, 400); // Failsafe
+      } else {
+        finalize();
+      }
     };
 
     const onPointerUp = (e: PointerEvent) => {
@@ -112,9 +211,7 @@ export function useDragAndDrop(cardRef: React.RefObject<HTMLDivElement | null>, 
       
       card.releasePointerCapture(e.pointerId);
 
-      document.querySelectorAll('[data-column-status]').forEach(el => {
-        el.classList.remove('bg-blue-50');
-      });
+      clearHighlight();
       
       // Find drop target
       if (state.clone) state.clone.style.display = 'none';
@@ -122,40 +219,49 @@ export function useDragAndDrop(cardRef: React.RefObject<HTMLDivElement | null>, 
       if (state.clone) state.clone.style.display = '';
       
       const columnEl = elements.find(el => el.hasAttribute('data-column-status'));
-      let isValidDrop = false;
       
       if (columnEl) {
         const newStatus = columnEl.getAttribute('data-column-status') as Status;
+        
         if (newStatus && newStatus !== currentStatus) {
+          // Valid drop on a different column — update status
           dispatch({ type: 'UPDATE_STATUS', payload: { taskId, newStatus } });
-          isValidDrop = true;
+          cleanup(false);
+          return;
         }
+        
+        // Dropped on same column — just clean up quietly (no snap-back)
+        cleanup(false);
+        return;
       }
 
-      if (!isValidDrop && state.clone) {
-        // Snap back animation
-        state.clone.style.transition = 'all 0.3s ease';
+      // Dropped outside any column — snap back with smooth animation
+      if (state.clone) {
+        state.clone.style.transition = 'left 0.35s cubic-bezier(0.2, 0, 0, 1), top 0.35s cubic-bezier(0.2, 0, 0, 1), transform 0.35s ease, opacity 0.35s ease';
+        state.clone.style.transform = 'scale(1)';
+        state.clone.style.opacity = '1';
         state.clone.style.left = `${state.startX}px`;
         state.clone.style.top = `${state.startY}px`;
         
-        state.clone.addEventListener('transitionend', cleanup, { once: true });
-        setTimeout(cleanup, 350); // Failsafe
+        cleanup(true);
       } else {
-        cleanup();
+        cleanup(false);
       }
     };
+
+    const onPointerCancel = () => cleanup(false);
 
     card.addEventListener('pointerdown', onPointerDown);
     card.addEventListener('pointermove', onPointerMove);
     card.addEventListener('pointerup', onPointerUp);
-    card.addEventListener('pointercancel', cleanup);
+    card.addEventListener('pointercancel', onPointerCancel);
 
     return () => {
       card.removeEventListener('pointerdown', onPointerDown);
       card.removeEventListener('pointermove', onPointerMove);
       card.removeEventListener('pointerup', onPointerUp);
-      card.removeEventListener('pointercancel', cleanup);
-      cleanup();
+      card.removeEventListener('pointercancel', onPointerCancel);
+      cleanup(false);
     };
   }, [cardRef, taskId, currentStatus, dispatch]);
 }

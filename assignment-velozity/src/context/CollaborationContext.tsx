@@ -51,7 +51,7 @@ export function CollaborationProvider({ children }: { children: ReactNode }) {
           return presence;
         })
       );
-    }, 6000); // Trigger every 6 seconds
+    }, 4000); // Trigger every 4 seconds
 
     return () => clearInterval(intervalId);
   }, [tasks]);
