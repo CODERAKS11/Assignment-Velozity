@@ -1,4 +1,5 @@
 import { useState, useEffect, RefObject } from 'react';
+import { flushSync } from 'react-dom';
 
 interface UseVirtualScrollOptions {
   itemCount: number;
@@ -17,7 +18,9 @@ export function useVirtualScroll({ itemCount, rowHeight, containerRef }: UseVirt
     if (!container) return;
 
     const handleScroll = (e: Event) => {
-      setScrollTop((e.target as HTMLDivElement).scrollTop);
+      flushSync(() => {
+        setScrollTop((e.target as HTMLDivElement).scrollTop);
+      });
     };
 
     const resizeObserver = new ResizeObserver((entries) => {
