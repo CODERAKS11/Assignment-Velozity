@@ -6,6 +6,7 @@ import { useURLSync } from './hooks/useURLSync';
 import { KanbanBoard } from './components/kanban/KanbanBoard';
 import { ListView } from './components/list/ListView';
 import { TimelineView } from './components/timeline/TimelineView';
+import { CollaborationProvider } from './context/CollaborationContext';
 
 function URLSyncManager() {
   const { filters, dispatch } = useFilterContext();
@@ -18,7 +19,8 @@ function App() {
 
   return (
     <TaskProvider>
-      <FilterProvider>
+      <CollaborationProvider>
+        <FilterProvider>
         <URLSyncManager />
         <div className="h-screen flex flex-col pt-4 px-4 bg-gray-50 pb-4">
           <header className="flex justify-between items-center mb-6 shrink-0">
@@ -35,6 +37,7 @@ function App() {
           </main>
         </div>
       </FilterProvider>
+      </CollaborationProvider>
     </TaskProvider>
   );
 }
