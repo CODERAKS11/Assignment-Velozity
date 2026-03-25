@@ -89,11 +89,18 @@ export function ListView() {
           action={hasActiveFilters ? (
             <button 
               onClick={() => filterDispatch({ type: 'CLEAR_ALL' })}
-              className="mt-4 px-4 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded text-sm font-medium transition-colors"
+              className="px-4 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded text-sm font-medium transition-colors"
             >
               Clear filters
             </button>
-          ) : undefined}
+          ) : (
+            <button 
+              className="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded text-sm font-medium transition-colors shadow-sm"
+              onClick={() => alert("Task Creation Modal Simulator")}
+            >
+              Add New Task
+            </button>
+          )}
         />
       </div>
     );
