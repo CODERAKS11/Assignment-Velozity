@@ -4,6 +4,7 @@ import { useFilterContext } from '../../context/FilterContext';
 import { EmptyState } from '../common/EmptyState';
 import { ListRow } from './ListRow';
 import { SortableHeader, SortField, SortDirection } from './SortableHeader';
+import { useVirtualScroll } from '../../hooks/useVirtualScroll';
 import { Priority } from '../../types';
 
 const priorityOrder: Record<Priority, number> = {
@@ -18,6 +19,8 @@ export function ListView() {
   const { filters, dispatch: filterDispatch } = useFilterContext();
   const [sortField, setSortField] = useState<SortField | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+  
+  const listContainerRef = React.useRef<HTMLDivElement>(null);
 
   const filteredTasks = useMemo(() => {
     let result = tasks.filter(task => {
@@ -53,6 +56,14 @@ export function ListView() {
 
     return result;
   }, [tasks, filters, sortField, sortDirection]);
+
+  const { startIndex, endIndex, totalHeight, offsetY } = useVirtualScroll({
+    itemCount: filteredTasks.length,
+    rowHeight: 48,
+    containerRef: listContainerRef
+  });
+
+  const virtualItems = filteredTasks.slice(startIndex, endIndex + 1);
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -91,7 +102,7 @@ export function ListView() {
   return (
     <div className="flex-1 flex flex-col bg-white overflow-hidden overflow-x-auto">
       <div className="min-w-[800px] flex flex-col h-full">
-        <div className="flex bg-gray-50 border-b border-gray-200 sticky top-0 z-10">
+        <div className="flex bg-gray-50 border-b border-gray-200 sticky top-0 z-10 shrink-0">
           <div className="flex-1 min-w-0 px-6 py-3 text-left">
             <SortableHeader label="Task Title" field="title" currentSortField={sortField} currentDirection={sortDirection} onSort={handleSort} />
           </div>
@@ -109,10 +120,17 @@ export function ListView() {
           </div>
         </div>
         
-        <div className="flex-1 overflow-y-auto w-full max-w-full relative">
-          {filteredTasks.map(task => (
-            <ListRow key={task.id} task={task} />
-          ))}
+        <div 
+          ref={listContainerRef}
+          className="flex-1 overflow-y-auto w-full max-w-full relative"
+        >
+          <div style={{ height: totalHeight, position: 'relative' }}>
+            <div style={{ transform: `translateY(${offsetY}px)`, willChange: 'transform' }}>
+              {virtualItems.map(task => (
+                <ListRow key={task.id} task={task} />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -17,8 +17,8 @@ export const ListRow = React.memo(({ task }: ListRowProps) => {
   const { text: dueText, isDanger: isDueDanger, isWarning: isDueWarning } = formatDueDate(task.dueDate);
 
   return (
-    <div className="flex bg-white hover:bg-gray-50 border-b border-gray-200">
-      <div className="flex-1 min-w-0 px-6 py-3 self-center">
+    <div className="flex bg-white hover:bg-gray-50 border-b border-gray-200 h-12">
+      <div className="flex-1 min-w-0 px-6 py-0 self-center">
         <span className="text-sm font-medium text-gray-900 line-clamp-1">{task.title}</span>
       </div>
       <div className="w-40 px-6 py-3 self-center shrink-0">
