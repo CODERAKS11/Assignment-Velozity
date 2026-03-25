@@ -65,14 +65,14 @@ export function ListView() {
 
   const virtualItems = filteredTasks.slice(startIndex, endIndex + 1);
 
-  const handleSort = (field: SortField) => {
+  const handleSort = React.useCallback((field: SortField) => {
     if (sortField === field) {
       setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
     } else {
       setSortField(field);
       setSortDirection('asc');
     }
-  };
+  }, [sortField]);
 
   const hasActiveFilters = 
     filters.status.length > 0 || 

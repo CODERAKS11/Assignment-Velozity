@@ -31,13 +31,13 @@ export function MultiSelectDropdown<T extends string>({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
-  const toggleOption = (id: T) => {
+  const toggleOption = React.useCallback((id: T) => {
     if (selectedValues.includes(id)) {
       onChange(selectedValues.filter(v => v !== id));
     } else {
       onChange([...selectedValues, id]);
     }
-  };
+  }, [selectedValues, onChange]);
 
   return (
     <div className={`relative inline-block text-left ${className}`} ref={containerRef}>
