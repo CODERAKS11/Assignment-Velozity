@@ -5,6 +5,7 @@ import { ViewSwitcher } from './components/common/ViewSwitcher';
 import { useURLSync } from './hooks/useURLSync';
 import { KanbanBoard } from './components/kanban/KanbanBoard';
 import { ListView } from './components/list/ListView';
+import { TimelineView } from './components/timeline/TimelineView';
 
 function URLSyncManager() {
   const { filters, dispatch } = useFilterContext();
@@ -30,7 +31,7 @@ function App() {
           <main className="flex-1 bg-white rounded-lg shadow border border-gray-200 overflow-hidden flex flex-col relative">
             {currentView === 'kanban' && <KanbanBoard />}
             {currentView === 'list' && <ListView />}
-            {currentView === 'timeline' && <div className="p-8 text-center text-gray-500">Timeline View</div>}
+            {currentView === 'timeline' && <TimelineView />}
           </main>
         </div>
       </FilterProvider>
