@@ -53,22 +53,27 @@ export function useDragAndDrop(cardRef: React.RefObject<HTMLDivElement | null>, 
       state.startX = rect.left;
       state.startY = rect.top;
       
+      const isDark = document.documentElement.classList.contains('dark');
+      
       // Create clone that follows cursor
       const clone = card.cloneNode(true) as HTMLElement;
+      clone.classList.add(isDark ? 'dark' : 'light'); // Force theme context
       clone.style.position = 'fixed';
       clone.style.top = `${rect.top}px`;
       clone.style.left = `${rect.left}px`;
       clone.style.width = `${rect.width}px`;
       clone.style.height = `${rect.height}px`;
-      clone.style.opacity = '0.85';
-      clone.style.boxShadow = '0 12px 28px -4px rgba(0,0,0,0.4), 0 4px 8px rgba(0,0,0,0.2)';
+      clone.style.opacity = '0.92';
+      clone.style.boxShadow = isDark 
+        ? '0 12px 28px -4px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.3)' 
+        : '0 12px 28px -4px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.1)';
       clone.style.pointerEvents = 'none';
       clone.style.zIndex = '1000';
       clone.style.margin = '0';
       clone.style.transition = 'transform 0.15s ease, box-shadow 0.15s ease';
       clone.style.transform = 'scale(1.03) rotate(1.5deg)';
-      clone.style.border = '1px solid #3f3f46';
-      clone.style.backgroundColor = '#21222A'; // Matches the custom card color
+      clone.style.border = isDark ? '1px solid #282934' : '1px solid #e5e7eb';
+      clone.style.backgroundColor = isDark ? '#1D1E26' : '#ffffff'; // Matches the theme surface color
       document.body.appendChild(clone);
       state.clone = clone;
       
@@ -76,9 +81,9 @@ export function useDragAndDrop(cardRef: React.RefObject<HTMLDivElement | null>, 
       const placeholder = document.createElement('div');
       placeholder.style.width = `${rect.width}px`;
       placeholder.style.height = `${rect.height}px`;
-      placeholder.style.border = '2px dashed #94a3b8';
+      placeholder.style.border = `2px dashed ${isDark ? '#4b5563' : '#9ca3af'}`;
       placeholder.style.borderRadius = '0.75rem';
-      placeholder.style.backgroundColor = '#f1f5f9';
+      placeholder.style.backgroundColor = isDark ? '#13151f' : '#f9fafb';
       placeholder.style.backgroundImage = 'repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(148,163,184,0.06) 8px, rgba(148,163,184,0.06) 16px)';
       placeholder.style.margin = window.getComputedStyle(card).margin;
       placeholder.style.transition = 'opacity 0.2s ease';
@@ -118,8 +123,9 @@ export function useDragAndDrop(cardRef: React.RefObject<HTMLDivElement | null>, 
         if (colStatus !== currentStatus) {
           state.originalColumnBg = columnEl.style.backgroundColor || '';
           state.highlightedColumn = columnEl;
-          columnEl.style.backgroundColor = '#dbeafe';
-          columnEl.style.boxShadow = 'inset 0 0 0 2px #93c5fd';
+          const isDarkNow = document.documentElement.classList.contains('dark');
+          columnEl.style.backgroundColor = isDarkNow ? 'rgba(101, 92, 253, 0.15)' : 'rgba(101, 92, 253, 0.1)';
+          columnEl.style.boxShadow = `inset 0 0 0 2px ${isDarkNow ? '#837bff' : '#655CFD'}`;
         }
       }
       
