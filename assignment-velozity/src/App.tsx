@@ -24,9 +24,9 @@ function App() {
         <FilterProvider>
         <URLSyncManager />
         <div className="h-screen flex flex-col pt-4 px-4 bg-gray-50 pb-4">
-          <header className="flex justify-between items-center mb-6 shrink-0">
+          <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 shrink-0">
             <h1 className="text-2xl font-bold text-gray-800">Project Tracker</h1>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4 w-full md:w-auto justify-end">
               <GlobalPresence />
               <ViewSwitcher currentView={currentView} onViewChange={setCurrentView} />
             </div>
