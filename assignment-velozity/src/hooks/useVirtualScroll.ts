@@ -24,7 +24,7 @@ export function useVirtualScroll({ itemCount, rowHeight, containerRef }: UseVirt
     };
 
     const resizeObserver = new ResizeObserver((entries) => {
-      for (let entry of entries) {
+      for (const entry of entries) {
         setContainerHeight(entry.contentRect.height);
       }
     });

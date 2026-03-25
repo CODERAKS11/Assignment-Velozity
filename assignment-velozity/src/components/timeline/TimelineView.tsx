@@ -1,9 +1,13 @@
 import React, { useMemo } from 'react';
 import { useTaskContext } from '../../context/TaskContext';
 import { useFilterContext } from '../../context/FilterContext';
+import { TimelineBar } from './TimelineBar';
+import { TodayMarker } from './TodayMarker';
 
 export function TimelineView() {
   const { tasks } = useTaskContext();
+//... skipped for replace brevity
+// wait standard replacement cannot skip middle. I need to do full content or target properly.
   const { filters } = useFilterContext();
 
   const filteredTasks = useMemo(() => {
@@ -66,6 +70,7 @@ export function TimelineView() {
           </div>
 
           <div className="flex flex-col relative flex-1">
+            <TodayMarker year={year} month={month} />
             <div className="absolute inset-0 flex pointer-events-none">
               {days.map(d => (
                 <div key={d.date} className="border-r border-gray-100 h-full shrink-0" style={{ width: DAY_WIDTH }} />
@@ -73,8 +78,8 @@ export function TimelineView() {
             </div>
             
             {filteredTasks.map(task => (
-              <div key={task.id} className="h-12 border-b border-gray-50 relative group hover:bg-gray-50/50">
-                 {/* Task bars will mount here */}
+              <div key={task.id} className="h-12 border-b border-gray-50 relative group hover:bg-gray-50/50 shrink-0">
+                 <TimelineBar task={task} year={year} month={month} />
               </div>
             ))}
           </div>
