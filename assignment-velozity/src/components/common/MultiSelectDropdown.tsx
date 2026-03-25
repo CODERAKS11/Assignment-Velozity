@@ -54,19 +54,31 @@ export function MultiSelectDropdown<T extends string>({
       </button>
 
       {isOpen && (
-        <div className="absolute z-10 mt-1 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+        <div className="absolute z-50 mt-1 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
           <div className="py-1 max-h-60 overflow-y-auto">
             {options.map((opt) => (
               <label key={opt.id} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
                 <input
                   type="checkbox"
-                  className="mr-3 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="mr-3 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
                   checked={selectedValues.includes(opt.id)}
                   onChange={() => toggleOption(opt.id)}
                 />
                 {opt.label}
               </label>
             ))}
+          </div>
+          <div className="px-4 py-2 border-t border-gray-100 bg-gray-50 mt-1 flex justify-between items-center rounded-b-md">
+            <span className="text-xs font-medium text-gray-500">{selectedValues.length} active</span>
+            {selectedValues.length > 0 && (
+              <button 
+                onClick={(e) => { e.stopPropagation(); onChange([]); }}
+                className="text-xs font-semibold text-blue-600 hover:text-blue-800 transition-colors"
+                type="button"
+              >
+                Clear
+              </button>
+            )}
           </div>
         </div>
       )}
