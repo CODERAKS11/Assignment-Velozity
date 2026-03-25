@@ -7,6 +7,7 @@ import { KanbanBoard } from './components/kanban/KanbanBoard';
 import { ListView } from './components/list/ListView';
 import { TimelineView } from './components/timeline/TimelineView';
 import { CollaborationProvider } from './context/CollaborationContext';
+import { GlobalPresence } from './components/common/GlobalPresence';
 
 function URLSyncManager() {
   const { filters, dispatch } = useFilterContext();
@@ -26,6 +27,7 @@ function App() {
           <header className="flex justify-between items-center mb-6 shrink-0">
             <h1 className="text-2xl font-bold text-gray-800">Project Tracker</h1>
             <div className="flex items-center gap-4">
+              <GlobalPresence />
               <ViewSwitcher currentView={currentView} onViewChange={setCurrentView} />
             </div>
           </header>
