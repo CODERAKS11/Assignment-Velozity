@@ -28,12 +28,18 @@ export function Avatar({ name, className = '' }: AvatarProps) {
   const initials = getInitials(name);
 
   return (
-    <div
-      className={`flex items-center justify-center w-9 h-9 rounded-full text-white text-sm font-medium ${className}`}
-      style={{ backgroundColor: bgColor }}
-      title={name}
-    >
-      {initials}
+    <div className={`relative inline-block ${className}`} title={name}>
+      <div
+        className="flex items-center justify-center w-8 h-8 rounded-full text-white text-xs font-semibold relative z-10"
+        style={{ backgroundColor: bgColor }}
+      >
+        {initials}
+      </div>
+      {/* 1.5px stroke, 0.35 opacity ring around the avatar */}
+      <div 
+        className="absolute inset-[-3px] rounded-full pointer-events-none"
+        style={{ border: `1.5px solid ${bgColor}`, opacity: 0.35 }}
+      />
     </div>
   );
 }

@@ -32,7 +32,7 @@ export function KanbanBoard() {
   ];
 
   return (
-    <div className="flex-1 overflow-hidden grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 p-4">
+    <div className="flex-1 overflow-x-auto overflow-y-hidden flex gap-6 p-2 pb-4 items-start custom-scrollbar">
       {columns.map(col => {
         const colTasks = filteredTasks.filter(t => t.status === col.id);
         return <KanbanColumn key={col.id} status={col.id} title={col.title} tasks={colTasks} />;

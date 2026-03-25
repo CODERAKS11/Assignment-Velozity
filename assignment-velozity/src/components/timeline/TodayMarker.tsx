@@ -13,8 +13,8 @@ export function TodayMarker({ year, month }: { year: number, month: number }) {
       className="absolute top-0 bottom-0 pointer-events-none z-10"
       style={{ left: `${leftPos}px` }}
     >
-      <div className="w-px h-full border-l-2 border-dashed border-red-500" />
-      <div className="absolute top-1 -translate-x-1/2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow-sm">
+      <div className="w-px h-full border-l-2 border-dashed border-app-accent" />
+      <div className="absolute top-1 -translate-x-1/2 bg-app-accent text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow-[0_0_8px_rgba(101,92,253,0.5)]">
         TODAY
       </div>
     </div>

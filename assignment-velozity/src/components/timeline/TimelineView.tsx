@@ -56,17 +56,17 @@ export function TimelineView() {
   const visibleTasks = filteredTasks.slice(0, visibleCount);
 
   return (
-    <div className="flex-1 flex flex-col bg-white overflow-hidden relative">
-      <div className="flex-1 overflow-auto flex">
+    <div className="flex-1 flex flex-col bg-app-bg-primary overflow-hidden relative">
+      <div className="flex-1 overflow-auto flex custom-scrollbar">
         {/* Left labels column */}
-        <div className="sticky left-0 z-20 bg-white border-r border-gray-200 shrink-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)]" style={{ width: LABEL_WIDTH }}>
-          <div className="h-12 border-b border-gray-200 bg-gray-50 flex items-center px-4">
-            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Task</span>
+        <div className="sticky left-0 z-20 bg-app-bg-primary border-r border-app-border shrink-0 shadow-[2px_0_10px_rgba(0,0,0,0.5)]" style={{ width: LABEL_WIDTH }}>
+          <div className="h-12 border-b border-app-border bg-app-surface flex items-center px-4">
+            <span className="text-xs font-semibold text-app-text-secondary uppercase tracking-wider">Task</span>
           </div>
           <div className="flex flex-col">
             {visibleTasks.map(task => (
-              <div key={task.id} className="h-12 border-b border-gray-100 flex items-center px-4 overflow-hidden">
-                <span className="text-sm text-gray-800 truncate" title={task.title}>{task.title}</span>
+              <div key={task.id} className="h-12 border-b border-app-border flex items-center px-4 overflow-hidden">
+                <span className="text-[13px] text-app-text-primary truncate" title={task.title}>{task.title}</span>
               </div>
             ))}
           </div>
@@ -74,11 +74,11 @@ export function TimelineView() {
 
         {/* Timeline scrollable area */}
         <div className="flex flex-col min-w-max relative" style={{ width: days.length * DAY_WIDTH }}>
-          <div className="h-12 border-b border-gray-200 bg-gray-50 flex sticky top-0 z-10 shrink-0">
+          <div className="h-12 border-b border-app-border bg-app-surface flex sticky top-0 z-10 shrink-0">
             {days.map(d => (
-              <div key={d.date} className="border-r border-gray-200 flex flex-col items-center justify-center shrink-0" style={{ width: DAY_WIDTH }}>
-                <span className="text-[10px] text-gray-400 font-medium">{d.dayStr}</span>
-                <span className="text-xs font-semibold text-gray-700">{d.date}</span>
+              <div key={d.date} className="border-r border-app-border flex flex-col items-center justify-center shrink-0" style={{ width: DAY_WIDTH }}>
+                <span className="text-[10px] text-app-text-secondary font-medium">{d.dayStr}</span>
+                <span className="text-xs font-semibold text-app-text-primary">{d.date}</span>
               </div>
             ))}
           </div>
@@ -87,12 +87,12 @@ export function TimelineView() {
             <TodayMarker year={year} month={month} />
             <div className="absolute inset-0 flex pointer-events-none">
               {days.map(d => (
-                <div key={d.date} className="border-r border-gray-100 h-full shrink-0" style={{ width: DAY_WIDTH }} />
+                <div key={d.date} className="border-r border-app-border/50 h-full shrink-0" style={{ width: DAY_WIDTH }} />
               ))}
             </div>
             
             {visibleTasks.map(task => (
-              <div key={task.id} className="h-12 border-b border-gray-50 relative group hover:bg-gray-50/50 shrink-0">
+              <div key={task.id} className="h-12 border-b border-app-border/30 relative group hover:bg-app-surface-hover/50 shrink-0">
                  <TimelineBar task={task} year={year} month={month} />
               </div>
             ))}

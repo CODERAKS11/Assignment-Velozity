@@ -34,10 +34,10 @@ export function TimelineBar({ task, year, month }: TimelineBarProps) {
   if (width <= 0 && startOffset < 0) return null;
   
   const priorityColors = {
-    critical: 'bg-red-400 border-red-500',
-    high: 'bg-orange-400 border-orange-500',
-    medium: 'bg-yellow-400 border-yellow-500',
-    low: 'bg-green-400 border-green-500',
+    critical: 'bg-[#E91E63] border-[#C2185B]',
+    high: 'bg-[#f97316] border-[#E65100]',
+    medium: 'bg-[#eab308] border-[#F57F17]',
+    low: 'bg-[#22c55e] border-[#1B5E20]',
   };
 
   if (!task.startDate) {
@@ -52,9 +52,15 @@ export function TimelineBar({ task, year, month }: TimelineBarProps) {
 
   return (
     <div 
-      className={`absolute top-3 h-6 rounded-md border shadow-sm opacity-90 hover:opacity-100 transition-opacity ${priorityColors[task.priority]}`}
+      className={`absolute top-2.5 h-7 rounded-md border shadow-sm opacity-90 flex items-center px-2 overflow-hidden hover:opacity-100 hover:z-10 transition-all ${priorityColors[task.priority]}`}
       style={{ left: `${left}px`, width: `${Math.max(4, width)}px` }}
       title={`${task.title}\nStart: ${task.startDate}\nDue: ${task.dueDate}`}
-    />
+    >
+      {width > 30 && (
+        <span className="text-[10px] font-bold text-white whitespace-nowrap truncate drop-shadow-sm">
+          {task.title}
+        </span>
+      )}
+    </div>
   );
 }

@@ -15,12 +15,12 @@ export function SortableHeader({ label, field, currentSortField, currentDirectio
 
   return (
     <div 
-      className={`text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-gray-900 group select-none flex items-center gap-1 ${className}`}
+      className={`text-xs font-medium text-app-text-secondary uppercase tracking-wider cursor-pointer hover:text-app-text-primary group select-none flex items-center gap-1 ${className}`}
       onClick={() => onSort(field)}
       role="columnheader"
     >
       {label}
-      <span className={`text-gray-400 ${isActive ? 'opacity-100 text-gray-700' : 'opacity-0 group-hover:opacity-100'}`}>
+      <span className={`text-app-text-secondary ${isActive ? 'opacity-100 text-app-accent' : 'opacity-0 group-hover:opacity-100'}`}>
         {isActive ? (currentDirection === 'asc' ? '↑' : '↓') : '↕'}
       </span>
     </div>

@@ -38,7 +38,7 @@ export function FilterBar() {
     filters.dateRange !== null;
 
   return (
-    <div className="flex flex-wrap items-center gap-4 bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6 relative">
+    <div className="flex flex-wrap items-center gap-3 bg-transparent p-0 mb-6 relative">
       <MultiSelectDropdown
         label="Status"
         options={statusOptions}
@@ -59,17 +59,17 @@ export function FilterBar() {
       />
       
       <div className="flex items-center gap-2">
-        <label className="text-sm font-medium text-gray-700">Due Date:</label>
+        <label className="text-xs font-medium text-app-text-secondary">Due Date:</label>
         <input 
           type="date"
-          className="text-sm border border-gray-300 rounded px-2 py-1 focus:ring-blue-500 focus:border-blue-500"
+          className="h-[26px] text-xs font-medium text-app-text-secondary bg-app-surface border border-app-border rounded-[5px] px-2 focus:outline-none focus:border-app-accent/50"
           value={filters.dateRange?.start || ''}
           onChange={(e) => handleDateChange('start', e.target.value)}
         />
-        <span className="text-gray-500 font-medium text-sm">to</span>
+        <span className="text-app-text-secondary font-medium text-xs">to</span>
         <input 
           type="date"
-          className="text-sm border border-gray-300 rounded px-2 py-1 focus:ring-blue-500 focus:border-blue-500"
+          className="h-[26px] text-xs font-medium text-app-text-secondary bg-app-surface border border-app-border rounded-[5px] px-2 focus:outline-none focus:border-app-accent/50"
           value={filters.dateRange?.end || ''}
           onChange={(e) => handleDateChange('end', e.target.value)}
         />
@@ -78,9 +78,9 @@ export function FilterBar() {
       {hasActiveFilters && (
         <button
           onClick={() => dispatch({ type: 'CLEAR_ALL' })}
-          className="ml-auto text-sm text-gray-500 hover:text-gray-700 underline"
+          className="ml-auto text-xs font-medium text-app-accent hover:text-app-accent-hover transition-colors"
         >
-          Clear all filters
+          Clear all
         </button>
       )}
     </div>

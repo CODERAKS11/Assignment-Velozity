@@ -90,41 +90,46 @@ export function ListView() {
           action={hasActiveFilters ? (
             <button 
               onClick={() => filterDispatch({ type: 'CLEAR_ALL' })}
-              className="px-4 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded text-sm font-medium transition-colors"
+              className="px-4 py-2 bg-app-accent/15 text-app-accent hover:bg-app-accent/25 rounded-[5px] text-sm font-medium transition-colors border border-app-accent/30"
             >
               Clear filters
             </button>
-          ) : (
-            <button 
-              className="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded text-sm font-medium transition-colors shadow-sm"
-              onClick={() => alert("Task Creation Modal Simulator")}
-            >
-              Add New Task
-            </button>
-          )}
+          ) : null}
         />
       </div>
     );
   }
 
   return (
-    <div className="flex-1 flex flex-col bg-white overflow-hidden overflow-x-auto">
-      <div className="min-w-[900px] flex flex-col h-full bg-white">
-        <div className="flex bg-white border-b-2 border-slate-100 sticky top-0 z-10 shrink-0 shadow-[0_2px_4px_rgba(0,0,0,0.01)] h-12 items-center">
+    <div className="flex-1 flex flex-col bg-app-bg-primary overflow-hidden overflow-x-auto">
+      <div className="min-w-[1000px] flex flex-col h-full bg-app-bg-primary">
+        <div className="px-6 py-2 bg-app-bg-secondary border-b border-app-border text-xs text-app-text-secondary flex items-center gap-2">
+          <svg className="w-3.5 h-3.5 text-app-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Note: You can click on column headers (like Task Title, Priority, Due Date) to sort tasks.
+        </div>
+        <div className="flex bg-app-bg-primary border-b-2 border-app-border sticky top-0 z-10 shrink-0 h-10 items-center">
           <div className="flex-1 min-w-0 px-6 py-0 text-left">
             <SortableHeader label="Task Title" field="title" currentSortField={sortField} currentDirection={sortDirection} onSort={handleSort} />
           </div>
-          <div className="w-40 px-6 py-3 text-left">
-            <span className="text-xs font-medium text-gray-500 uppercase tracking-wider select-none">Status</span>
+          <div className="w-40 px-6 py-2 text-left">
+            <span className="text-xs font-medium text-app-text-secondary uppercase tracking-wider select-none">Status</span>
           </div>
-          <div className="w-32 px-6 py-3 text-left">
+          <div className="w-32 px-6 py-2 text-left">
             <SortableHeader label="Priority" field="priority" currentSortField={sortField} currentDirection={sortDirection} onSort={handleSort} />
           </div>
-          <div className="w-48 px-6 py-3 text-left">
-            <span className="text-xs font-medium text-gray-500 uppercase tracking-wider select-none">Assignee</span>
+          <div className="w-48 px-6 py-2 text-left">
+            <span className="text-xs font-medium text-app-text-secondary uppercase tracking-wider select-none">Assignee</span>
           </div>
-          <div className="w-32 px-6 py-3 text-left">
+          <div className="w-32 px-6 py-2 text-left">
             <SortableHeader label="Due Date" field="dueDate" currentSortField={sortField} currentDirection={sortDirection} onSort={handleSort} />
+          </div>
+          <div className="w-32 px-6 py-2 text-left">
+            <span className="text-xs font-medium text-app-text-secondary uppercase tracking-wider select-none">Start Date</span>
+          </div>
+          <div className="w-48 px-6 py-2 text-left">
+            <span className="text-xs font-medium text-app-text-secondary uppercase tracking-wider select-none">Progress</span>
           </div>
         </div>
         

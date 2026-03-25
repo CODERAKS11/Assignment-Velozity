@@ -61,13 +61,14 @@ export function useDragAndDrop(cardRef: React.RefObject<HTMLDivElement | null>, 
       clone.style.width = `${rect.width}px`;
       clone.style.height = `${rect.height}px`;
       clone.style.opacity = '0.85';
-      clone.style.boxShadow = '0 16px 32px rgba(0,0,0,0.18), 0 4px 8px rgba(0,0,0,0.08)';
+      clone.style.boxShadow = '0 12px 28px -4px rgba(0,0,0,0.4), 0 4px 8px rgba(0,0,0,0.2)';
       clone.style.pointerEvents = 'none';
       clone.style.zIndex = '1000';
       clone.style.margin = '0';
       clone.style.transition = 'transform 0.15s ease, box-shadow 0.15s ease';
-      clone.style.transform = 'scale(1.03)';
-      clone.style.borderColor = '#93c5fd';
+      clone.style.transform = 'scale(1.03) rotate(1.5deg)';
+      clone.style.border = '1px solid #3f3f46';
+      clone.style.backgroundColor = '#21222A'; // Matches the custom card color
       document.body.appendChild(clone);
       state.clone = clone;
       

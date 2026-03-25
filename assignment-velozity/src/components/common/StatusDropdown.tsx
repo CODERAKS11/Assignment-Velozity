@@ -15,10 +15,10 @@ const statusLabels: Record<Status, string> = {
 };
 
 const statusColors: Record<Status, string> = {
-  todo: 'bg-status-todo',
-  inprogress: 'bg-status-inprogress',
-  inreview: 'bg-status-inreview',
-  done: 'bg-status-done',
+  todo: 'bg-[#655CFD]/15 text-[#655CFD] border-[#655CFD]/30',
+  inprogress: 'bg-[#8b5cf6]/15 text-[#8b5cf6] border-[#8b5cf6]/30',
+  inreview: 'bg-[#eab308]/15 text-[#eab308] border-[#eab308]/30',
+  done: 'bg-[#22c55e]/15 text-[#22c55e] border-[#22c55e]/30',
 };
 
 export function StatusDropdown({ status, onChange, className = '' }: StatusDropdownProps) {
@@ -53,19 +53,16 @@ export function StatusDropdown({ status, onChange, className = '' }: StatusDropd
     <div className={`relative inline-block text-left ${className}`} ref={containerRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="inline-flex justify-between items-center w-full px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none"
+        className={`inline-flex justify-between items-center w-full px-2.5 py-1 text-xs font-semibold rounded-[5px] transition-colors focus:outline-none border ${statusColors[status]} ${className}`}
       >
-        <span className="flex items-center gap-2">
-          <span className={`w-2 h-2 rounded-full ${statusColors[status]}`}></span>
-          {statusLabels[status]}
-        </span>
-        <svg className="-mr-1 ml-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <span>{statusLabels[status]}</span>
+        <svg className="-mr-1 ml-2 h-4 w-4 opacity-70" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
           <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
         </svg>
       </button>
 
       {isOpen && (
-        <div className="absolute z-10 mt-1 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+        <div className="absolute z-50 mt-1 w-40 rounded-md shadow-lg bg-app-bg-secondary border border-app-border ring-1 ring-black ring-opacity-5">
           <div className="py-1" role="menu">
             {allStatuses.map((opt) => (
               <button
@@ -74,10 +71,9 @@ export function StatusDropdown({ status, onChange, className = '' }: StatusDropd
                   onChange(opt);
                   setIsOpen(false);
                 }}
-                className={`flex items-center gap-2 w-full text-left px-4 py-2 text-sm ${opt === status ? 'bg-gray-100 text-gray-900' : 'text-gray-700 hover:bg-gray-50'}`}
+                className={`flex items-center gap-2 w-full text-left px-4 py-2 text-xs font-medium transition-colors ${opt === status ? 'bg-app-surface text-app-text-primary' : 'text-app-text-secondary hover:bg-app-surface-hover hover:text-app-text-primary'}`}
                 role="menuitem"
               >
-                <span className={`w-2 h-2 rounded-full ${statusColors[opt]}`}></span>
                 {statusLabels[opt]}
               </button>
             ))}

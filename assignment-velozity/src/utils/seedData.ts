@@ -10,18 +10,27 @@ export const USERS: User[] = [
   { id: 'u7', name: 'Anita Singh', color: '#ef4444' },
 ];
 
-const PREFIXES = ['[CORE]', '[UI/UX]', '[API]', '[OPS]', '[DB]', '[SEC]', ''];
-const ACTIONS = ['Optimize', 'Migrate', 'Refactor', 'Deprecate', 'Integrate', 'Investigate', 'Resolve', 'Implement', 'Audit', 'Standardize'];
-const SUBJECTS = [
-  'Redis caching strategy', 'legacy Auth0 pipeline', 'Stripe webhooks handling', 
-  'React Router v7 loaders', 'GraphQL resolvers', 'E2E test suite', 
-  'Docker compose configuration', 'S3 upload streams', 'Figma design tokens', 
-  'OAuth2 refresh flows', 'memory leaks in websockets', 'CSS payload chunking'
-];
-const CONTEXTS = [
-  'for Q3 compliance', 'in reporting dashboard', 'causing unhandled exceptions', 
-  'to improve LCP metrics', 'to reduce database load', 'across staging environments',
-  'for mobile responsive views', 'to resolve client escalation', ''
+const REALISTIC_TITLES = [
+  'Fix Safari date parsing regression',
+  'Add keyboard nav to custom dropdowns',
+  'Virtualised list — fix blank row bug',
+  'URL-sync filter state via useSearchParams',
+  'Gantt bar width off-by-one on month end',
+  'Implement drag & drop Kanban system',
+  'Build virtual scrolling from scratch',
+  'Redesign landing page hero section',
+  'Set up CI/CD pipeline for staging',
+  'Mobile responsive nav component',
+  'Lighthouse performance score 85+',
+  'Update API documentation v2.4',
+  'Connect WebSocket live collaboration',
+  'Zustand store architecture setup',
+  'Design system tokens & color scale',
+  'Migrate legacy Auth0 pipeline to OAuth2',
+  'Optimize Redis caching strategy for dashboard',
+  'Stripe webhooks unhandled exception bug',
+  'React Router v7 loaders data hydration',
+  'Resolve memory leaks in socket multiplexer'
 ];
 
 const PRIORITIES: Priority[] = ['critical', 'high', 'medium', 'low'];
@@ -64,8 +73,7 @@ export function generateSeedData(count: number = 500): Task[] {
       startDateStr = generateDate(startDateOffset);
     }
 
-    const prefix = Math.random() > 0.4 ? getRandomItem(PREFIXES) : '';
-    const title = `${prefix ? prefix + ' ' : ''}${getRandomItem(ACTIONS)} ${getRandomItem(SUBJECTS)} ${getRandomItem(CONTEXTS)}`.trim();
+    const title = getRandomItem(REALISTIC_TITLES);
 
     tasks.push({
       id: `task-${i + 1}`,

@@ -21,7 +21,7 @@ export function ActiveUsersStack({ taskId, assignee }: ActiveUsersStackProps) {
     <div className="flex items-center -space-x-2">
       {/* Assignee is statically rendered as they own the task */}
       {assignee && !activeUsers.find(p => p.user.id === assignee.id) && (
-        <div className="relative inline-block ring-2 ring-white rounded-full bg-white z-0" title={`Assignee: ${assignee.name}`}>
+        <div className="relative inline-block ring-2 ring-app-surface rounded-full bg-app-surface z-0" title={`Assignee: ${assignee.name}`}>
           <Avatar name={assignee.name} />
         </div>
       )}
@@ -38,7 +38,7 @@ export function ActiveUsersStack({ taskId, assignee }: ActiveUsersStackProps) {
 
       {/* Overflow bubble */}
       {excess > 0 && (
-        <div className="relative inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 ring-2 ring-white z-20 text-xs font-semibold text-slate-600 shadow-sm border border-slate-200">
+        <div className="relative inline-flex items-center justify-center w-8 h-8 rounded-full bg-app-surface ring-2 ring-app-surface z-20 text-xs font-semibold text-app-text-secondary shadow-sm border border-app-border">
           +{excess}
           
           {/* Render the excess user slots absolutely positioned inside the bubble 

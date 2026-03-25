@@ -100,22 +100,22 @@ export function GlobalAvatarLayer() {
         const pos = positions[presence.user.id] || { x: 0, y: 0, opacity: 0, scale: 0.5, isAppearing: false };
         
         return (
-          <div
-            key={presence.user.id}
-            className="absolute top-0 left-0 pointer-events-none"
-            style={{
-              transform: `translate3d(${pos.x}px, ${pos.y}px, 0) scale(${pos.scale})`,
-              opacity: pos.opacity,
-              transitionProperty: pos.isAppearing ? 'opacity' : 'all',
-              transitionDuration: '700ms',
-              transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
-            }}
-          >
-            <div className="relative inline-block ring-2 ring-blue-400 rounded-full bg-white shadow-md">
-              <Avatar name={presence.user.name} />
-              <span className="absolute bottom-0 right-0 block w-2.5 h-2.5 bg-green-500 rounded-full ring-2 ring-white translate-x-1/4 translate-y-1/4" />
+            <div
+              key={presence.user.id}
+              className="absolute top-0 left-0 pointer-events-none"
+              style={{
+                transform: `translate3d(${pos.x}px, ${pos.y}px, 0) scale(${pos.scale})`,
+                opacity: pos.opacity,
+                transitionProperty: pos.isAppearing ? 'opacity' : 'all',
+                transitionDuration: '700ms',
+                transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+              }}
+            >
+              <div className="relative inline-block ring-2 ring-app-accent rounded-full bg-app-surface shadow-md">
+                <Avatar name={presence.user.name} />
+                <span className="absolute bottom-0 right-0 block w-2.5 h-2.5 bg-green-500 rounded-full ring-2 ring-app-surface translate-x-1/4 translate-y-1/4" />
+              </div>
             </div>
-          </div>
         );
       })}
     </div>

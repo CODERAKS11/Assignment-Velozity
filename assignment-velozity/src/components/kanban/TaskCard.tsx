@@ -10,6 +10,13 @@ interface TaskCardProps {
   task: Task;
 }
 
+const PRIORITY_BORDER_COLORS: Record<string, string> = {
+  critical: 'border-l-[#E91E63]',
+  high: 'border-l-[#f97316]',
+  medium: 'border-l-[#eab308]',
+  low: 'border-l-[#22c55e]'
+};
+
 export const TaskCard = React.memo(({ task }: TaskCardProps) => {
   const assignee = USERS.find(u => u.id === task.assigneeId);
   const { text: dueText, isDanger: isDueDanger, isWarning: isDueWarning } = formatDueDate(task.dueDate);
@@ -20,24 +27,24 @@ export const TaskCard = React.memo(({ task }: TaskCardProps) => {
   return (
     <div 
       ref={cardRef}
-      className="group bg-white p-5 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-slate-200 cursor-grab active:cursor-grabbing hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)] hover:border-blue-200 transition-all duration-200 relative touch-none"
+      className={`group bg-app-surface p-4 rounded-[6px] shadow-[0_2px_8px_rgba(0,0,0,0.2)] border border-app-border border-l-[3px] ${PRIORITY_BORDER_COLORS[task.priority]} cursor-grab active:cursor-grabbing hover:shadow-[0_8px_24px_rgba(0,0,0,0.3)] hover:border-app-text-muted hover:-translate-y-0.5 transition-all duration-200 relative touch-none`}
       data-task-id={task.id}
     >
-      <div className="flex justify-between items-start mb-3 gap-2">
-        <h3 className="text-sm font-semibold text-slate-800 leading-relaxed line-clamp-2 flex-1 group-hover:text-blue-700 transition-colors">{task.title}</h3>
+      <div className="flex justify-between items-start mb-4 gap-2">
+        <h3 className="text-[13px] font-medium text-app-text-primary leading-snug line-clamp-2 flex-1 group-hover:text-app-accent transition-colors">{task.title}</h3>
       </div>
       
       {dueText && (
-        <div className={`text-xs mt-1 font-medium mb-3 ${isDueDanger ? 'text-red-600' : isDueWarning ? 'text-orange-500' : 'text-gray-500'}`}>
+        <div className={`text-[11px] font-semibold mb-3 tracking-wide ${isDueDanger ? 'text-[#E91E63]' : isDueWarning ? 'text-[#f97316]' : 'text-app-accent'}`}>
           {dueText}
         </div>
       )}
       
-      <div className="flex justify-between items-center mt-auto pt-2">
+      <div className="flex justify-between items-center mt-auto">
         <PriorityBadge priority={task.priority} />
         <div className="flex items-center gap-2">
           {assignee && (
-            <span className="text-xs text-gray-500 hidden sm:inline-block truncate max-w-[80px]" title={assignee.name}>
+            <span className="text-xs text-app-text-secondary hidden sm:inline-block truncate max-w-[80px]" title={assignee.name}>
               {assignee.name}
             </span>
           )}

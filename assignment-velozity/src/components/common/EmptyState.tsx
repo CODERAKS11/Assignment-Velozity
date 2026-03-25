@@ -16,12 +16,12 @@ export function EmptyState({ icon, title, message, action, className = '' }: Emp
   );
 
   return (
-    <div className={`flex flex-col items-center justify-center p-8 text-center bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl shadow-sm w-full max-w-md mx-auto ${className}`}>
-      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-sm border border-gray-100 mb-4">
+    <div className={`flex flex-col items-center justify-center p-8 text-center bg-app-surface border-2 border-dashed border-app-border rounded-xl shadow-sm w-full max-w-md mx-auto ${className}`}>
+      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-app-bg-secondary shadow-sm border border-app-border mb-4">
         {icon || defaultIcon}
       </div>
-      <h3 className="text-base font-semibold text-gray-900">{title}</h3>
-      {message && <p className="text-sm text-gray-500 max-w-sm mt-1 leading-relaxed">{message}</p>}
+      <h3 className="text-base font-semibold text-app-text-primary">{title}</h3>
+      {message && <p className="text-sm text-app-text-secondary max-w-sm mt-1 leading-relaxed">{message}</p>}
       {action && <div className="mt-6 flex justify-center">{action}</div>}
     </div>
   );
