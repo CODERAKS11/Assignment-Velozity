@@ -2,7 +2,7 @@ import React from 'react';
 import { Task } from '../../types';
 import { USERS } from '../../utils/seedData';
 import { PriorityBadge } from '../common/PriorityBadge';
-import { Avatar } from '../common/Avatar';
+import { ActiveUsersStack } from '../common/ActiveUsersStack';
 import { StatusDropdown } from '../common/StatusDropdown';
 import { formatDueDate } from '../../utils/dateHelpers';
 import { useTaskContext } from '../../context/TaskContext';
@@ -31,12 +31,12 @@ export const ListRow = React.memo(({ task }: ListRowProps) => {
         <PriorityBadge priority={task.priority} />
       </div>
       <div className="w-48 px-6 py-3 self-center shrink-0">
-        {assignee && (
-          <div className="flex items-center gap-2" title={assignee.name}>
-            <Avatar name={assignee.name} />
-            <span className="text-sm text-gray-500 truncate">{assignee.name}</span>
-          </div>
-        )}
+        <div className="flex items-center gap-3">
+          <ActiveUsersStack taskId={task.id} assignee={assignee} />
+          {assignee && (
+            <span className="text-sm text-gray-500 truncate" title={assignee.name}>{assignee.name}</span>
+          )}
+        </div>
       </div>
       <div className="w-32 px-6 py-3 self-center shrink-0 flex items-center">
         <span className={`text-sm ${isDueDanger ? 'text-red-600 font-medium' : isDueWarning ? 'text-orange-500 font-medium' : 'text-gray-500'}`}>
